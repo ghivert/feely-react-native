@@ -1,0 +1,3 @@
+rootProject.name = 'FeelyReactNative'
+
+include ':app'
