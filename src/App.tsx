@@ -1,5 +1,6 @@
 import React from 'react'
 import { Platform, StyleSheet, Text, View } from 'react-native'
+import AllChats from './views/AllChats'
 
 const instructions: String = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -11,11 +12,7 @@ const instructions: String = Platform.select({
 interface Props {}
 export default (_props: Props) => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.welcome}>Welcome to React Native!</Text>
-      <Text style={styles.instructions}>To get started, edit App.tsx</Text>
-      <Text style={styles.instructions}>{instructions}</Text>
-    </View>
+    <AllChats/>
   )
 }
 
