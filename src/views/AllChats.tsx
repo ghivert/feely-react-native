@@ -60,18 +60,25 @@ const TopBar = (_props: TopBarProps) => (
   </SafeAreaView>
 )
 
-interface ConversationsListItemProps {}
-const ConversationsListItem = (_props: ConversationsListItemProps) => (
-  <View>
-    <Text>Test</Text>
-  </View>
-)
+interface ConversationsListItemProps {
+  index: number,
+  item: Object,
+}
+const renderConversationsListItem = ({ index, item }: ConversationsListItemProps) => {
+  return (
+    <View>
+      <Text>{`Index: ${index}`}</Text>
+      <Text>{`Test: ${item}`}</Text>
+    </View>
+  )
+}
 
 interface ConversationsListProps {}
 const ConversationsList = (_props: ConversationsListProps) => (
   <FlatList
-    data={[ 1, 2, 3, 4, 5 ].map(item => ({ key: item }))}
-    renderItem={({ item, index }) => <ConversationsListItem key={index}/>}
+    data={[ 1, 2, 3, 4, 5 ]}
+    renderItem={renderConversationsListItem}
+    keyExtractor={(_item, index) => index.toString()}
   />
 )
 
