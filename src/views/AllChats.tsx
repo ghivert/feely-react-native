@@ -17,6 +17,7 @@ const PROFILE_PICTURE_SIZE = 25
 const TINY_PADDING = 3
 const SMALL_PADDING = 6
 const STANDARD_PADDING = 12
+const MEDIUM_PADDING = 18
 const ICON_GREY = 'rgb(147, 148, 165)'
 const TOPBAR_BACKGROUND_COLOR = 'rgb(60, 60, 90)'
 
@@ -138,18 +139,27 @@ const Spacer = ({ size }: SpacerProps) => (
 )
 
 interface ConversationsItemDetailsProps {}
-const ConversationsItemDetails = (_props: ConversationsItemDetailsProps) => (
-  <View style={[styles.common.full, styles.conversationsItem.details]}>
-    <View style={[styles.common.row, styles.conversationsItem.moodAndTime]}>
-      <Mood/>
-      <LastHour/>
+const ConversationsItemDetails = (_props: ConversationsItemDetailsProps) => {
+  const mainStyle = [
+    styles.common.full,
+    styles.common.row,
+    styles.conversationsItem.details,
+  ]
+  return (
+    <View style={mainStyle}>
+      <View style={styles.conversationsItem.moodAndName}>
+        <Mood/>
+        <Spacer size={TINY_PADDING}/>
+        <NameAndOnlineActivityIndicator/>
+        <Spacer size={TINY_PADDING}/>
+        <LastMessage/>
+      </View>
+      <View style={styles.common.baseline}>
+        <LastHour/>
+      </View>
     </View>
-    <Spacer size={TINY_PADDING}/>
-    <NameAndOnlineActivityIndicator/>
-    <Spacer size={TINY_PADDING}/>
-    <LastMessage/>
-  </View>
-)
+  )
+}
 
 interface ConversationsListItemProps {
   index: number,
@@ -202,7 +212,10 @@ const styles = {
     },
     row: {
       flexDirection: 'row',
-    }
+    },
+    baseline: {
+      alignItems: 'baseline',
+    },
   }),
   topBar: StyleSheet.create({
     main: {
@@ -261,11 +274,11 @@ const styles = {
       width: 10,
     },
     details: {
-      padding: STANDARD_PADDING,
+      padding: MEDIUM_PADDING,
     },
-    moodAndTime: {
+    moodAndName: {
       alignItems: 'baseline',
-      justifyContent: 'space-between',
+      flex: 1,
     },
     mood: {
       color: 'rgb(178, 178, 178)',
