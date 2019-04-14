@@ -14,6 +14,8 @@ import faker from 'faker'
 const ACTIVITY_INDICATOR_SIZE = 10
 const ACTIVITY_INDICATOR_INSIDE_SIZE = 5
 const PROFILE_PICTURE_SIZE = 25
+const TINY_PADDING = 3
+const SMALL_PADDING = 6
 const STANDARD_PADDING = 12
 const ICON_GREY = 'rgb(147, 148, 165)'
 const TOPBAR_BACKGROUND_COLOR = 'rgb(60, 60, 90)'
@@ -103,35 +105,48 @@ const ImageIndicator = ({ source }: ImageIndicatorProps) => (
 
 interface MoodProps {}
 const Mood = (_props: MoodProps) => (
-  <Text>Relaxed</Text>
+  <Text style={styles.conversationsItem.mood}>Relaxed</Text>
 )
 
 interface LastHourProps {}
 const LastHour = (_props: LastHourProps) => (
-  <Text>now</Text>
+  <Text style={styles.conversationsItem.lastHour}>now</Text>
 )
 
 interface NameAndOnlineActivityIndicatorProps {}
 const NameAndOnlineActivityIndicator = (_props: NameAndOnlineActivityIndicatorProps) => (
-  <View style={styles.common.row}>
-    <Text>{faker.name.findName()}</Text>
+  <View style={[styles.common.row, styles.conversationsItem.nameAndActivity]}>
+    <Text style={styles.conversationsItem.name}>{faker.name.findName()}</Text>
     <ActivityIndicator color='white'/>
   </View>
 )
 
 interface LastMessageProps {}
 const LastMessage = (_props: LastMessageProps) => (
-  <Text>{faker.lorem.sentence()}</Text>
+  <Text
+    numberOfLines={1}
+    ellipsizeMode='tail'
+    style={styles.conversationsItem.lastMessage}
+  >
+    {faker.lorem.sentence()}
+  </Text>
+)
+
+interface SpacerProps { size: number }
+const Spacer = ({ size }: SpacerProps) => (
+  <View style={{ padding: size / 2 }}/>
 )
 
 interface ConversationsItemDetailsProps {}
 const ConversationsItemDetails = (_props: ConversationsItemDetailsProps) => (
-  <View style={styles.common.full}>
-    <View style={styles.common.row}>
+  <View style={[styles.common.full, styles.conversationsItem.details]}>
+    <View style={[styles.common.row, styles.conversationsItem.moodAndTime]}>
       <Mood/>
       <LastHour/>
     </View>
+    <Spacer size={TINY_PADDING}/>
     <NameAndOnlineActivityIndicator/>
+    <Spacer size={TINY_PADDING}/>
     <LastMessage/>
   </View>
 )
@@ -244,6 +259,35 @@ const styles = {
     randomColor: {
       height: '100%',
       width: 10,
+    },
+    details: {
+      padding: STANDARD_PADDING,
+    },
+    moodAndTime: {
+      alignItems: 'baseline',
+      justifyContent: 'space-between',
+    },
+    mood: {
+      color: 'rgb(178, 178, 178)',
+      textTransform: 'uppercase',
+      fontSize: 12,
+      fontWeight: '600',
+    },
+    lastHour: {
+      color: 'rgb(178, 178, 178)',
+      fontSize: 10,
+      fontWeight: '600',
+    },
+    nameAndActivity: {
+      alignItems: 'center',
+    },
+    name: {
+      fontWeight: '600',
+      paddingRight: SMALL_PADDING,
+    },
+    lastMessage: {
+      fontWeight: '500',
+      color: 'rgb(160, 160, 160)',
     },
   }),
 }
