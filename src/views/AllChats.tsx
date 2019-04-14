@@ -7,10 +7,13 @@ import Native, {
   StatusBar,
   SafeAreaView,
   StyleSheet,
+  TouchableOpacity,
 } from 'react-native'
-import Icon from 'react-native-vector-icons/AntDesign'
+import AntIcon from 'react-native-vector-icons/AntDesign'
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 import faker from 'faker'
 
+const NEW_MESSAGE_BUTTON_SIZE = 50
 const ACTIVITY_INDICATOR_SIZE = 10
 const ACTIVITY_INDICATOR_INSIDE_SIZE = 5
 const PROFILE_PICTURE_SIZE = 25
@@ -18,8 +21,11 @@ const TINY_PADDING = 3
 const SMALL_PADDING = 6
 const STANDARD_PADDING = 12
 const MEDIUM_PADDING = 18
+const LARGE_PADDING = 24
+const XLARGE_PADDING = 36
 const ICON_GREY = 'rgb(147, 148, 165)'
 const TOPBAR_BACKGROUND_COLOR = 'rgb(60, 60, 90)'
+const NEW_MESSAGE_BUTTON_COLOR = 'rgb(140, 140, 245)'
 
 interface ActivityIndicatorProps {
   color: string,
@@ -33,7 +39,7 @@ const ActivityIndicator = ({ color }: ActivityIndicatorProps) => (
 interface PeoplesIconProps {}
 const PeoplesIcon = (_props: PeoplesIconProps) => (
   <View style={styles.topBar.itemPadding}>
-    <Icon
+    <AntIcon
       name='contacts'
       size={25}
       color={ICON_GREY}
@@ -65,13 +71,13 @@ const TopBar = (_props: TopBarProps) => (
 
 
 let counter = 0
-const getRandomColor = () => {
+const getRandomColor = (): string => {
   const color = selectColor()
   counter = (counter + 1) % 7
   return color
 }
 
-const selectColor = () => {
+const selectColor = (): string => {
   switch(counter) {
     case 0: return 'rgb(093, 196, 174)'
     case 1: return 'rgb(198, 174, 174)'
@@ -80,6 +86,7 @@ const selectColor = () => {
     case 4: return 'rgb(245, 208, 125)'
     case 5: return 'rgb(248, 220, 157)'
     case 6: return 'rgb(118, 124, 233)'
+    default: throw new Error('Random color undefined.')
   }
 }
 
@@ -99,9 +106,9 @@ interface ImageIndicatorProps {
 const ImageIndicator = ({ source }: ImageIndicatorProps) => (
   <ImageBackground
     source={source}
-    style={styles.conversationsItem.profilePictureContainer}
-  >
-  </ImageBackground>
+    style={{ flex: 1, aspectRatio: 1 }}
+    resizeMode='cover'
+  />
 )
 
 interface MoodProps {}
@@ -114,11 +121,20 @@ const LastHour = (_props: LastHourProps) => (
   <Text style={styles.conversationsItem.lastHour}>now</Text>
 )
 
+interface ActivityIndicatorIfPresentProps {}
+const ActivityIndicatorIfPresent = (_props: ActivityIndicatorIfPresentProps) => {
+  if (Math.random() < 0.5) {
+    return <ActivityIndicator color='white'/>
+  } else {
+    return null
+  }
+}
+
 interface NameAndOnlineActivityIndicatorProps {}
 const NameAndOnlineActivityIndicator = (_props: NameAndOnlineActivityIndicatorProps) => (
   <View style={[styles.common.row, styles.conversationsItem.nameAndActivity]}>
     <Text style={styles.conversationsItem.name}>{faker.name.findName()}</Text>
-    <ActivityIndicator color='white'/>
+    <ActivityIndicatorIfPresent/>
   </View>
 )
 
@@ -138,6 +154,17 @@ const Spacer = ({ size }: SpacerProps) => (
   <View style={{ padding: size / 2 }}/>
 )
 
+interface MoodAndNameProps {}
+const MoodAndName = (_props: MoodAndNameProps) => (
+  <View style={styles.conversationsItem.moodAndName}>
+    <Mood/>
+    <Spacer size={TINY_PADDING}/>
+    <NameAndOnlineActivityIndicator/>
+    <Spacer size={TINY_PADDING}/>
+    <LastMessage/>
+  </View>
+)
+
 interface ConversationsItemDetailsProps {}
 const ConversationsItemDetails = (_props: ConversationsItemDetailsProps) => {
   const mainStyle = [
@@ -147,15 +174,11 @@ const ConversationsItemDetails = (_props: ConversationsItemDetailsProps) => {
   ]
   return (
     <View style={mainStyle}>
-      <View style={styles.conversationsItem.moodAndName}>
-        <Mood/>
-        <Spacer size={TINY_PADDING}/>
-        <NameAndOnlineActivityIndicator/>
-        <Spacer size={TINY_PADDING}/>
-        <LastMessage/>
-      </View>
-      <View style={styles.common.baseline}>
-        <LastHour/>
+      <View style={styles.common.row}>
+        <MoodAndName/>
+        <View style={styles.common.baseline}>
+          <LastHour/>
+        </View>
       </View>
     </View>
   )
@@ -165,15 +188,17 @@ interface ConversationsListItemProps {
   index: number,
   item: Object,
 }
-const renderConversationsListItem = ({ index, item }: ConversationsListItemProps) => {
-  return (
-    <View style={styles.common.row}>
-      <ImageIndicator source={{ uri: faker.image.imageUrl() }}/>
-      <RandomColor/>
-      <ConversationsItemDetails/>
-    </View>
-  )
-}
+const ConversationsListItem = (_props: ConversationsListItemProps) => (
+  <View style={styles.common.row}>
+    <ImageIndicator source={{ uri: faker.image.imageUrl() }}/>
+    <RandomColor/>
+    <ConversationsItemDetails/>
+  </View>
+)
+
+const renderConversationsListItem: Native.ListRenderItem<number> = ({ index, item }) => (
+  <ConversationsListItem index={index} item={item}/>
+)
 
 interface ConversationsListSeparatorProps {
   highlighted: number,
@@ -186,24 +211,37 @@ const ConversationsListSeparator = (_props: ConversationsListSeparatorProps) => 
 interface ConversationsListProps {}
 const ConversationsList = (_props: ConversationsListProps) => (
   <FlatList
-    data={[ 1, 2, 3, 4, 5 ]}
+    data={[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]}
     renderItem={renderConversationsListItem}
     keyExtractor={(_item, index) => index.toString()}
     ItemSeparatorComponent={ConversationsListSeparator}
+    ListHeaderComponent={ConversationsListSeparator}
     ListFooterComponent={ConversationsListSeparator}
   />
 )
 
-interface Props {}
-export default (_props: Props) => {
-  return (
-    <View style={{ flex: 1 }}>
-      <StatusBar barStyle='light-content'/>
-      <TopBar/>
-      <ConversationsList/>
+interface NewMessageButtonProps {}
+const NewMessageButton = (_props: NewMessageButtonProps) => (
+  <TouchableOpacity>
+    <View style={[styles.newMessageButton.main, styles.shadow.hard]}>
+      <MaterialIcon
+        size={30}
+        name='add'
+        color='rgb(242, 242, 242)'
+      />
     </View>
-  )
-}
+  </TouchableOpacity>
+)
+
+interface Props {}
+export default (_props: Props) => (
+  <View style={styles.common.full}>
+    <StatusBar barStyle='light-content'/>
+    <TopBar/>
+    <ConversationsList/>
+    <NewMessageButton/>
+  </View>
+)
 
 const styles = {
   common: StyleSheet.create({
@@ -275,6 +313,8 @@ const styles = {
     },
     details: {
       padding: MEDIUM_PADDING,
+      flex: 3,
+      alignItems: 'center'
     },
     moodAndName: {
       alignItems: 'baseline',
@@ -301,6 +341,39 @@ const styles = {
     lastMessage: {
       fontWeight: '500',
       color: 'rgb(160, 160, 160)',
+    },
+  }),
+  shadow: StyleSheet.create({
+    light: {
+      shadowColor: "#bbb",
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.23,
+      shadowRadius: 2.62
+    },
+    hard: {
+      shadowColor: "#666",
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.6,
+      shadowRadius: 2.62
+    },
+  }),
+  newMessageButton: StyleSheet.create({
+    main: {
+      position: 'absolute',
+      bottom: XLARGE_PADDING,
+      right: XLARGE_PADDING,
+      width: NEW_MESSAGE_BUTTON_SIZE,
+      height: NEW_MESSAGE_BUTTON_SIZE,
+      borderRadius: NEW_MESSAGE_BUTTON_SIZE / 2,
+      backgroundColor: NEW_MESSAGE_BUTTON_COLOR,
+      alignItems: 'center',
+      justifyContent: 'center',
     },
   }),
 }
