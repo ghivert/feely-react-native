@@ -1,12 +1,12 @@
 import React from 'react'
-import {
+import Native, {
   View,
   FlatList,
   Text,
   ImageBackground,
   StatusBar,
   SafeAreaView,
-  StyleSheet
+  StyleSheet,
 } from 'react-native'
 import Icon from 'react-native-vector-icons/AntDesign'
 import faker from 'faker'
@@ -60,18 +60,103 @@ const TopBar = (_props: TopBarProps) => (
   </SafeAreaView>
 )
 
+
+let counter = 0
+const getRandomColor = () => {
+  const color = selectColor()
+  counter = (counter + 1) % 7
+  return color
+}
+
+const selectColor = () => {
+  switch(counter) {
+    case 0: return 'rgb(093, 196, 174)'
+    case 1: return 'rgb(198, 174, 174)'
+    case 2: return 'rgb(176, 110, 207)'
+    case 3: return 'rgb(219, 116, 175)'
+    case 4: return 'rgb(245, 208, 125)'
+    case 5: return 'rgb(248, 220, 157)'
+    case 6: return 'rgb(118, 124, 233)'
+  }
+}
+
+interface RandomColorProps {}
+const RandomColor = (_props: RandomColorProps) => (
+  <View
+    style={[
+      styles.conversationsItem.randomColor,
+      { backgroundColor: getRandomColor() },
+    ]}
+  />
+)
+
+interface ImageIndicatorProps {
+  source: Native.ImageSourcePropType,
+}
+const ImageIndicator = ({ source }: ImageIndicatorProps) => (
+  <ImageBackground
+    source={source}
+    style={styles.conversationsItem.profilePictureContainer}
+  >
+  </ImageBackground>
+)
+
+interface MoodProps {}
+const Mood = (_props: MoodProps) => (
+  <Text>Relaxed</Text>
+)
+
+interface LastHourProps {}
+const LastHour = (_props: LastHourProps) => (
+  <Text>now</Text>
+)
+
+interface NameAndOnlineActivityIndicatorProps {}
+const NameAndOnlineActivityIndicator = (_props: NameAndOnlineActivityIndicatorProps) => (
+  <View style={styles.common.row}>
+    <Text>{faker.name.findName()}</Text>
+    <ActivityIndicator color='white'/>
+  </View>
+)
+
+interface LastMessageProps {}
+const LastMessage = (_props: LastMessageProps) => (
+  <Text>{faker.lorem.sentence()}</Text>
+)
+
+interface ConversationsItemDetailsProps {}
+const ConversationsItemDetails = (_props: ConversationsItemDetailsProps) => (
+  <View style={styles.common.full}>
+    <View style={styles.common.row}>
+      <Mood/>
+      <LastHour/>
+    </View>
+    <NameAndOnlineActivityIndicator/>
+    <LastMessage/>
+  </View>
+)
+
 interface ConversationsListItemProps {
   index: number,
   item: Object,
 }
 const renderConversationsListItem = ({ index, item }: ConversationsListItemProps) => {
   return (
-    <View>
-      <Text>{`Index: ${index}`}</Text>
-      <Text>{`Test: ${item}`}</Text>
+    <View style={styles.common.row}>
+      <ImageIndicator source={{ uri: faker.image.imageUrl() }}/>
+      <RandomColor/>
+      <ConversationsItemDetails/>
     </View>
   )
 }
+
+interface ConversationsListSeparatorProps {
+  highlighted: number,
+  leadingItem: React.Component,
+}
+const ConversationsListSeparator = (_props: ConversationsListSeparatorProps) => (
+  <View style={styles.conversations.separator}/>
+)
 
 interface ConversationsListProps {}
 const ConversationsList = (_props: ConversationsListProps) => (
@@ -79,6 +164,8 @@ const ConversationsList = (_props: ConversationsListProps) => (
     data={[ 1, 2, 3, 4, 5 ]}
     renderItem={renderConversationsListItem}
     keyExtractor={(_item, index) => index.toString()}
+    ItemSeparatorComponent={ConversationsListSeparator}
+    ListFooterComponent={ConversationsListSeparator}
   />
 )
 
@@ -94,6 +181,14 @@ export default (_props: Props) => {
 }
 
 const styles = {
+  common: StyleSheet.create({
+    full: {
+      flex: 1,
+    },
+    row: {
+      flexDirection: 'row',
+    }
+  }),
   topBar: StyleSheet.create({
     main: {
       flexDirection: 'row',
@@ -133,6 +228,22 @@ const styles = {
       width: ACTIVITY_INDICATOR_INSIDE_SIZE,
       height: ACTIVITY_INDICATOR_INSIDE_SIZE,
       borderRadius: ACTIVITY_INDICATOR_INSIDE_SIZE / 2,
+    },
+  }),
+  conversations: StyleSheet.create({
+    separator: {
+      height: StyleSheet.hairlineWidth,
+      backgroundColor: 'rgb(200, 200, 200)',
+    }
+  }),
+  conversationsItem: StyleSheet.create({
+    profilePictureContainer: {
+      width: 40,
+      height: 40,
+    },
+    randomColor: {
+      height: '100%',
+      width: 10,
     },
   }),
 }
