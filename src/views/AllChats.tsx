@@ -13,16 +13,28 @@ import AntIcon from 'react-native-vector-icons/AntDesign'
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 import faker from 'faker'
 
+// Sizes
 const NEW_MESSAGE_BUTTON_SIZE = 50
 const ACTIVITY_INDICATOR_SIZE = 10
 const ACTIVITY_INDICATOR_INSIDE_SIZE = 5
 const PROFILE_PICTURE_SIZE = 25
+
+// Padding
 const TINY_PADDING = 3
 const SMALL_PADDING = 6
 const STANDARD_PADDING = 12
 const MEDIUM_PADDING = 18
 const LARGE_PADDING = 24
 const XLARGE_PADDING = 36
+
+// Colors
+const LIGHT_GREEN = 'rgb(093, 196, 174)'
+const LIGHT_ORANGE = 'rgb(198, 174, 174)'
+const MAGENTA = 'rgb(176, 110, 207)'
+const LIGHT_RED = 'rgb(219, 116, 175)'
+const SUNNY_YELLOW = 'rgb(245, 208, 125)'
+const LIGHT_YELLOW = 'rgb(248, 220, 157)'
+const LIGHT_PURPLE = 'rgb(118, 124, 233)'
 const ICON_GREY = 'rgb(147, 148, 165)'
 const TOPBAR_BACKGROUND_COLOR = 'rgb(60, 60, 90)'
 const NEW_MESSAGE_BUTTON_COLOR = 'rgb(140, 140, 245)'
@@ -79,13 +91,13 @@ const getRandomColor = (): string => {
 
 const selectColor = (): string => {
   switch(counter) {
-    case 0: return 'rgb(093, 196, 174)'
-    case 1: return 'rgb(198, 174, 174)'
-    case 2: return 'rgb(176, 110, 207)'
-    case 3: return 'rgb(219, 116, 175)'
-    case 4: return 'rgb(245, 208, 125)'
-    case 5: return 'rgb(248, 220, 157)'
-    case 6: return 'rgb(118, 124, 233)'
+    case 0: return LIGHT_GREEN
+    case 1: return LIGHT_ORANGE
+    case 2: return MAGENTA
+    case 3: return LIGHT_RED
+    case 4: return SUNNY_YELLOW
+    case 5: return LIGHT_YELLOW
+    case 6: return LIGHT_PURPLE
     default: throw new Error('Random color undefined.')
   }
 }
