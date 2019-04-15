@@ -1,6 +1,6 @@
 import Navigation from 'react-navigation'
-import AllChats from './views/AllChats'
-import NewMessage from './views/NewMessage'
+import AllChats from './views/page/AllChats'
+import NewMessage from './views/page/NewMessage'
 
 export default Navigation.createAppContainer(
   Navigation.createStackNavigator(

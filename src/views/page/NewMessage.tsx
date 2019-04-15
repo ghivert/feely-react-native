@@ -8,6 +8,7 @@ import Native, {
   FlatList,
   Image,
   TouchableOpacity,
+  KeyboardAvoidingView,
 } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import LinearGradient from 'react-native-linear-gradient'
@@ -20,10 +21,10 @@ import {
   MEDIUM_PADDING,
   LARGE_PADDING,
   XLARGE_PADDING,
-} from './constants'
-import commonStyles from './styles'
-import ActivityIndicator from './ActivityIndicator'
-import ListSeparator from './ListSeparator'
+} from '../styles/constants'
+import commonStyles from '../styles'
+import ActivityIndicator from '../components/ActivityIndicator'
+import ListSeparator from '../components/ListSeparator'
 
 const PROFILE_PICTURE_SIZE = 40
 
@@ -93,7 +94,7 @@ interface ContactsProps {}
 const Contacts = (_props: ContactsProps) => (
   <FlatList
     style={styles.contacts.main}
-    data={[ 1, 2, 3, 4, 5, 6, 7, 8 ]}
+    data={[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 ]}
     renderItem={renderContactsItem}
     keyExtractor={(_item, index) => index.toString()}
     ItemSeparatorComponent={ListSeparator}
@@ -108,6 +109,7 @@ const MessageField = (_props: MessageFieldProps) => (
     <TextInput
       style={styles.message.input}
       placeholder='Your message'
+      multiline={true}
     />
   </SafeAreaView>
 )
@@ -116,12 +118,14 @@ interface Props {
   navigation: any,
 }
 export default ({ navigation }: Props) => (
-  <View style={styles.common.maxHeight}>
-    <Header navigation={navigation}/>
-    <Search/>
-    <Contacts/>
-    <MessageField/>
-  </View>
+  <KeyboardAvoidingView behavior='padding'>
+    <View style={{ maxHeight: '100%', flexGrow: 1 }}>
+      <Header navigation={navigation}/>
+      <Search/>
+      <Contacts/>
+      <MessageField/>
+    </View>
+  </KeyboardAvoidingView>
 )
 
 const styles = {
@@ -162,6 +166,7 @@ const styles = {
   }),
   contacts: StyleSheet.create({
     main: {
+      flexGrow: 1,
       backgroundColor,
     },
   }),
@@ -185,7 +190,7 @@ const styles = {
   }),
   message: StyleSheet.create({
     input: {
-      padding: LARGE_PADDING,
+      margin: LARGE_PADDING,
       fontSize: 14,
       fontWeight: '500',
     },

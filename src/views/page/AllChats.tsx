@@ -11,7 +11,6 @@ import Native, {
 } from 'react-native'
 import AntIcon from 'react-native-vector-icons/AntDesign'
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
-import Navigation from 'react-navigation'
 import faker from 'faker'
 
 import {
@@ -22,10 +21,10 @@ import {
   XLARGE_PADDING,
   PROFILE_PICTURE_SIZE,
   SMALL_PROFILE_PICTURE_SIZE,
-} from './constants'
-import commonStyles from './styles'
-import ActivityIndicator from './ActivityIndicator'
-import ListSeparator from './ListSeparator'
+} from '../styles/constants'
+import commonStyles from '../styles'
+import ActivityIndicator from '../components/ActivityIndicator'
+import ListSeparator from '../components/ListSeparator'
 
 // Colors
 const LIGHT_GREEN = 'rgb(093, 196, 174)'
@@ -42,11 +41,7 @@ const NEW_MESSAGE_BUTTON_COLOR = 'rgb(140, 140, 245)'
 interface PeoplesIconProps {}
 const PeoplesIcon = (_props: PeoplesIconProps) => (
   <View style={styles.topBar.itemPadding}>
-    <AntIcon
-      name='contacts'
-      size={25}
-      color={ICON_GREY}
-    />
+    <AntIcon name='contacts' size={25} color={ICON_GREY}/>
   </View>
 )
 
@@ -54,7 +49,7 @@ interface ProfilePictureProps {}
 const ProfilePicture = (_props: ProfilePictureProps) => (
   <View style={styles.topBar.itemPadding}>
     <ImageBackground
-      source={{ uri: faker.image.imageUrl() }}
+      source={{ uri: faker.image.people() }}
       style={styles.topBar.profilePictureContainer}
       imageStyle={styles.topBar.profilePictureImage}
     >
@@ -219,15 +214,9 @@ interface NewMessageButtonProps {
   navigation: any,
 }
 const NewMessageButton = ({ navigation }: NewMessageButtonProps) => (
-  <TouchableOpacity
-    onPress={() => navigation.navigate('NewMessage')}
-  >
+  <TouchableOpacity onPress={() => navigation.navigate('NewMessage')}>
     <View style={[styles.newMessageButton.main, styles.shadow.hard]}>
-      <MaterialIcon
-        size={30}
-        name='add'
-        color='rgb(242, 242, 242)'
-      />
+      <MaterialIcon size={30} name='add' color='rgb(242, 242, 242)'/>
     </View>
   </TouchableOpacity>
 )
