@@ -15,12 +15,8 @@ import LinearGradient from 'react-native-linear-gradient'
 import faker from 'faker'
 
 import {
-  TINY_PADDING,
-  SMALL_PADDING,
   STANDARD_PADDING,
-  MEDIUM_PADDING,
   LARGE_PADDING,
-  XLARGE_PADDING,
 } from '../styles/constants'
 import commonStyles from '../styles'
 import ActivityIndicator from '../components/ActivityIndicator'
