@@ -13,10 +13,10 @@ import AntIcon from 'react-native-vector-icons/AntDesign'
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 import faker from 'faker'
 
+import ActivityIndicator from './ActivityIndicator'
+
 // Sizes
 const NEW_MESSAGE_BUTTON_SIZE = 50
-const ACTIVITY_INDICATOR_SIZE = 10
-const ACTIVITY_INDICATOR_INSIDE_SIZE = 5
 const PROFILE_PICTURE_SIZE = 25
 
 // Padding
@@ -38,15 +38,6 @@ const LIGHT_PURPLE = 'rgb(118, 124, 233)'
 const ICON_GREY = 'rgb(147, 148, 165)'
 const TOPBAR_BACKGROUND_COLOR = 'rgb(60, 60, 90)'
 const NEW_MESSAGE_BUTTON_COLOR = 'rgb(140, 140, 245)'
-
-interface ActivityIndicatorProps {
-  color: string,
-}
-const ActivityIndicator = ({ color }: ActivityIndicatorProps) => (
-  <View style={styles.activityIndicator.outside}>
-    <View style={[ styles.activityIndicator.inside, { backgroundColor: color } ]}/>
-  </View>
-)
 
 interface PeoplesIconProps {}
 const PeoplesIcon = (_props: PeoplesIconProps) => (
@@ -118,7 +109,7 @@ interface ImageIndicatorProps {
 const ImageIndicator = ({ source }: ImageIndicatorProps) => (
   <ImageBackground
     source={source}
-    style={{ flex: 1, aspectRatio: 1 }}
+    style={styles.common.responsiveSquare}
     resizeMode='cover'
   />
 )
@@ -266,6 +257,10 @@ const styles = {
     baseline: {
       alignItems: 'baseline',
     },
+    responsiveSquare: {
+      flex: 1,
+      aspectRatio: 1,
+    },
   }),
   topBar: StyleSheet.create({
     main: {
@@ -291,21 +286,6 @@ const styles = {
     },
     profilePictureImage: {
       borderRadius: PROFILE_PICTURE_SIZE / 2,
-    },
-  }),
-  activityIndicator: StyleSheet.create({
-    outside: {
-      width: ACTIVITY_INDICATOR_SIZE,
-      height: ACTIVITY_INDICATOR_SIZE,
-      borderRadius: ACTIVITY_INDICATOR_SIZE / 2,
-      backgroundColor: 'rgb(127, 212, 182)',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    inside: {
-      width: ACTIVITY_INDICATOR_INSIDE_SIZE,
-      height: ACTIVITY_INDICATOR_INSIDE_SIZE,
-      borderRadius: ACTIVITY_INDICATOR_INSIDE_SIZE / 2,
     },
   }),
   conversations: StyleSheet.create({
