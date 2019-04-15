@@ -9,7 +9,7 @@ export default Navigation.createAppContainer(
       NewMessage,
     },
     {
-      initialRouteName: 'NewMessage',
+      initialRouteName: 'AllChats',
       headerMode: 'none',
     }
   )

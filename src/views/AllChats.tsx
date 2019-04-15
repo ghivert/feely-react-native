@@ -11,21 +11,21 @@ import Native, {
 } from 'react-native'
 import AntIcon from 'react-native-vector-icons/AntDesign'
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
+import Navigation from 'react-navigation'
 import faker from 'faker'
 
+import {
+  TINY_PADDING,
+  SMALL_PADDING,
+  STANDARD_PADDING,
+  MEDIUM_PADDING,
+  XLARGE_PADDING,
+  PROFILE_PICTURE_SIZE,
+  SMALL_PROFILE_PICTURE_SIZE,
+} from './constants'
+import commonStyles from './styles'
 import ActivityIndicator from './ActivityIndicator'
-
-// Sizes
-const NEW_MESSAGE_BUTTON_SIZE = 50
-const PROFILE_PICTURE_SIZE = 25
-
-// Padding
-const TINY_PADDING = 3
-const SMALL_PADDING = 6
-const STANDARD_PADDING = 12
-const MEDIUM_PADDING = 18
-const LARGE_PADDING = 24
-const XLARGE_PADDING = 36
+import ListSeparator from './ListSeparator'
 
 // Colors
 const LIGHT_GREEN = 'rgb(093, 196, 174)'
@@ -203,29 +203,25 @@ const renderConversationsListItem: Native.ListRenderItem<number> = ({ index, ite
   <ConversationsListItem index={index} item={item}/>
 )
 
-interface ConversationsListSeparatorProps {
-  highlighted: number,
-  leadingItem: React.Component,
-}
-const ConversationsListSeparator = (_props: ConversationsListSeparatorProps) => (
-  <View style={styles.conversations.separator}/>
-)
-
 interface ConversationsListProps {}
 const ConversationsList = (_props: ConversationsListProps) => (
   <FlatList
     data={[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]}
     renderItem={renderConversationsListItem}
     keyExtractor={(_item, index) => index.toString()}
-    ItemSeparatorComponent={ConversationsListSeparator}
-    ListHeaderComponent={ConversationsListSeparator}
-    ListFooterComponent={ConversationsListSeparator}
+    ItemSeparatorComponent={ListSeparator}
+    ListHeaderComponent={ListSeparator}
+    ListFooterComponent={ListSeparator}
   />
 )
 
-interface NewMessageButtonProps {}
-const NewMessageButton = (_props: NewMessageButtonProps) => (
-  <TouchableOpacity>
+interface NewMessageButtonProps {
+  navigation: any,
+}
+const NewMessageButton = ({ navigation }: NewMessageButtonProps) => (
+  <TouchableOpacity
+    onPress={() => navigation.navigate('NewMessage')}
+  >
     <View style={[styles.newMessageButton.main, styles.shadow.hard]}>
       <MaterialIcon
         size={30}
@@ -236,32 +232,20 @@ const NewMessageButton = (_props: NewMessageButtonProps) => (
   </TouchableOpacity>
 )
 
-interface Props {}
-export default (_props: Props) => (
+interface Props {
+  navigation: any,
+}
+export default ({ navigation }: Props) => (
   <View style={styles.common.full}>
     <StatusBar barStyle='light-content'/>
     <TopBar/>
     <ConversationsList/>
-    <NewMessageButton/>
+    <NewMessageButton navigation={navigation}/>
   </View>
 )
 
 const styles = {
-  common: StyleSheet.create({
-    full: {
-      flex: 1,
-    },
-    row: {
-      flexDirection: 'row',
-    },
-    baseline: {
-      alignItems: 'baseline',
-    },
-    responsiveSquare: {
-      flex: 1,
-      aspectRatio: 1,
-    },
-  }),
+  common: commonStyles,
   topBar: StyleSheet.create({
     main: {
       flexDirection: 'row',
@@ -280,19 +264,13 @@ const styles = {
       fontSize: 16,
     },
     profilePictureContainer: {
-      width: PROFILE_PICTURE_SIZE,
-      height: PROFILE_PICTURE_SIZE,
+      width: SMALL_PROFILE_PICTURE_SIZE,
+      height: SMALL_PROFILE_PICTURE_SIZE,
       alignItems: 'flex-end',
     },
     profilePictureImage: {
-      borderRadius: PROFILE_PICTURE_SIZE / 2,
+      borderRadius: SMALL_PROFILE_PICTURE_SIZE / 2,
     },
-  }),
-  conversations: StyleSheet.create({
-    separator: {
-      height: StyleSheet.hairlineWidth,
-      backgroundColor: 'rgb(200, 200, 200)',
-    }
   }),
   conversationsItem: StyleSheet.create({
     profilePictureContainer: {
@@ -360,9 +338,9 @@ const styles = {
       position: 'absolute',
       bottom: XLARGE_PADDING,
       right: XLARGE_PADDING,
-      width: NEW_MESSAGE_BUTTON_SIZE,
-      height: NEW_MESSAGE_BUTTON_SIZE,
-      borderRadius: NEW_MESSAGE_BUTTON_SIZE / 2,
+      width: PROFILE_PICTURE_SIZE,
+      height: PROFILE_PICTURE_SIZE,
+      borderRadius: PROFILE_PICTURE_SIZE / 2,
       backgroundColor: NEW_MESSAGE_BUTTON_COLOR,
       alignItems: 'center',
       justifyContent: 'center',
