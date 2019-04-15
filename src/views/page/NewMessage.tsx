@@ -21,6 +21,7 @@ import {
 import commonStyles from '../styles'
 import ActivityIndicator from '../components/ActivityIndicator'
 import ListSeparator from '../components/ListSeparator'
+import ContactsItem from '../components/ContactsItem'
 
 const PROFILE_PICTURE_SIZE = 40
 
@@ -70,28 +71,12 @@ const Search = (_props: SearchProps) => (
   </LinearGradient>
 )
 
-interface ContactsItemProps {}
-const ContactsItem = (_props: ContactsItemProps) => (
-  <View style={styles.contactsItem.main}>
-    <Image
-      source={{ uri: faker.image.people() }}
-      style={styles.contactsItem.image}
-    />
-    <Text style={styles.contactsItem.title}>{faker.name.findName()}</Text>
-    <ActivityIndicator color={backgroundColor}/>
-  </View>
-)
-
-const renderContactsItem: Native.ListRenderItem<number> = () => (
-  <ContactsItem/>
-)
-
 interface ContactsProps {}
 const Contacts = (_props: ContactsProps) => (
   <FlatList
     style={styles.contacts.main}
     data={[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 ]}
-    renderItem={renderContactsItem}
+    renderItem={() => <ContactsItem indicatorColor={backgroundColor}/>}
     keyExtractor={(_item, index) => index.toString()}
     ItemSeparatorComponent={ListSeparator}
     ListHeaderComponent={ListSeparator}

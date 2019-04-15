@@ -4,10 +4,12 @@ import Native, {
   FlatList,
   Text,
   ImageBackground,
+  Image,
   StatusBar,
   SafeAreaView,
   StyleSheet,
   TouchableOpacity,
+  TouchableWithoutFeedback,
 } from 'react-native'
 import AntIcon from 'react-native-vector-icons/AntDesign'
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
@@ -25,6 +27,7 @@ import {
 import commonStyles from '../styles'
 import ActivityIndicator from '../components/ActivityIndicator'
 import ListSeparator from '../components/ListSeparator'
+import ContactsItem from '../components/ContactsItem'
 
 // Colors
 const LIGHT_GREEN = 'rgb(093, 196, 174)'
@@ -38,32 +41,43 @@ const ICON_GREY = 'rgb(147, 148, 165)'
 const TOPBAR_BACKGROUND_COLOR = 'rgb(60, 60, 90)'
 const NEW_MESSAGE_BUTTON_COLOR = 'rgb(140, 140, 245)'
 
-interface PeoplesIconProps {}
-const PeoplesIcon = (_props: PeoplesIconProps) => (
-  <View style={styles.topBar.itemPadding}>
-    <AntIcon name='contacts' size={25} color={ICON_GREY}/>
-  </View>
+interface PeoplesIconProps {
+  onPress: (event: Native.GestureResponderEvent) => void,
+}
+const PeoplesIcon = ({ onPress }: PeoplesIconProps) => (
+  <TouchableOpacity onPress={onPress}>
+    <View style={styles.topBar.itemPadding}>
+      <AntIcon name='contacts' size={25} color={ICON_GREY}/>
+    </View>
+  </TouchableOpacity>
 )
 
-interface ProfilePictureProps {}
-const ProfilePicture = (_props: ProfilePictureProps) => (
-  <View style={styles.topBar.itemPadding}>
-    <ImageBackground
-      source={{ uri: faker.image.people() }}
-      style={styles.topBar.profilePictureContainer}
-      imageStyle={styles.topBar.profilePictureImage}
-    >
-      <ActivityIndicator color={TOPBAR_BACKGROUND_COLOR}/>
-    </ImageBackground>
-  </View>
+interface ProfilePictureProps {
+  onPress: (event: Native.GestureResponderEvent) => void,
+}
+const ProfilePicture = ({ onPress }: ProfilePictureProps) => (
+  <TouchableOpacity onPress={onPress}>
+    <View style={styles.topBar.itemPadding}>
+      <ImageBackground
+        source={{ uri: faker.image.people() }}
+        style={styles.topBar.profilePictureContainer}
+        imageStyle={styles.topBar.profilePictureImage}
+      >
+        <ActivityIndicator color={TOPBAR_BACKGROUND_COLOR}/>
+      </ImageBackground>
+    </View>
+  </TouchableOpacity>
 )
 
-interface TopBarProps {}
-const TopBar = (_props: TopBarProps) => (
+interface TopBarProps {
+  onIconPress: (event: Native.GestureResponderEvent) => void,
+  onProfilePicturePress: (event: Native.GestureResponderEvent) => void,
+}
+const TopBar = ({ onIconPress, onProfilePicturePress }: TopBarProps) => (
   <SafeAreaView style={styles.topBar.main}>
-    <PeoplesIcon/>
+    <PeoplesIcon onPress={onIconPress}/>
     <Text style={styles.topBar.title}>Chat</Text>
-    <ProfilePicture/>
+    <ProfilePicture onPress={onProfilePicturePress}/>
   </SafeAreaView>
 )
 
@@ -221,17 +235,62 @@ const NewMessageButton = ({ navigation }: NewMessageButtonProps) => (
   </TouchableOpacity>
 )
 
+interface ContactsBarProps {
+  right: string,
+  onClose: (event: Native.GestureResponderEvent) => void,
+}
+const ContactsBar = ({ right, onClose }: ContactsBarProps) => (
+  <View
+    style={{
+      position: 'absolute',
+      width: '100%',
+      height: '100%',
+      right,
+      flexDirection: 'row',
+    }}
+  >
+    <View
+      style={[{
+        backgroundColor: 'rgb(233, 236, 242)',
+      }, styles.shadow.hard]}
+    >
+      <SafeAreaView>
+        <FlatList
+          data={[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]}
+          renderItem={() =>
+            <ContactsItem
+              indicatorColor='rgb(233, 236, 242)'
+              padIndicator={true}
+            />
+          }
+          keyExtractor={(_item, index) => index.toString()}
+        />
+      </SafeAreaView>
+    </View>
+    <TouchableWithoutFeedback onPress={onClose}>
+      <View style={{ flex: 1 }}/>
+    </TouchableWithoutFeedback>
+  </View>
+)
+
 interface Props {
   navigation: any,
 }
-export default ({ navigation }: Props) => (
-  <View style={styles.common.full}>
-    <StatusBar barStyle='light-content'/>
-    <TopBar/>
-    <ConversationsList/>
-    <NewMessageButton navigation={navigation}/>
-  </View>
-)
+export default ({ navigation }: Props) => {
+  const [ state, setState ] = React.useState('120%')
+  return (
+    <View style={styles.common.full}>
+      <StatusBar barStyle='light-content'/>
+      <TopBar
+        onIconPress={() => setState('0%')}
+        onProfilePicturePress={console.log}
+      />
+      <ConversationsList/>
+      <NewMessageButton navigation={navigation}/>
+      <ContactsBar right={state} onClose={() => setState('120%')}/>
+    </View>
+  )
+}
 
 const styles = {
   common: commonStyles,
