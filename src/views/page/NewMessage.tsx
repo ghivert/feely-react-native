@@ -115,7 +115,7 @@ interface Props {
 }
 export default ({ navigation }: Props) => (
   <KeyboardAvoidingView behavior='padding'>
-    <View style={{ maxHeight: '100%', flexGrow: 1 }}>
+    <View style={styles.main.main}>
       <Header navigation={navigation}/>
       <Search/>
       <Contacts/>
@@ -126,6 +126,12 @@ export default ({ navigation }: Props) => (
 
 const styles = {
   common: commonStyles,
+  main: StyleSheet.create({
+    main: {
+      maxHeight: '100%',
+      flexGrow: 1,
+    },
+  }),
   header: StyleSheet.create({
     main: {
       flexDirection: 'row',
