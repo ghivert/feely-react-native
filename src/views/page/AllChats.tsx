@@ -239,7 +239,7 @@ const useAnimation = (right: number, state: Animated.Value) => {
   React.useEffect(() => {
     Animated.timing(state, {
       toValue: right,
-      duration: 500,
+      duration: 350,
     }).start()
   })
 }
@@ -305,7 +305,9 @@ export default ({ navigation }: Props) => {
       <StatusBar barStyle='light-content'/>
       <TopBar
         onIconPress={() => setState(0)}
-        onProfilePicturePress={console.log}
+        onProfilePicturePress={() => {
+          console.warn('Profile Picture Pressed')
+        }}
       />
       <ConversationsList/>
       <NewMessageButton navigation={navigation}/>
