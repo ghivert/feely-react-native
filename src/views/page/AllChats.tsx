@@ -4,12 +4,12 @@ import Native, {
   FlatList,
   Text,
   ImageBackground,
-  Image,
   StatusBar,
   SafeAreaView,
   StyleSheet,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  Animated,
 } from 'react-native'
 import AntIcon from 'react-native-vector-icons/AntDesign'
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
@@ -235,59 +235,81 @@ const NewMessageButton = ({ navigation }: NewMessageButtonProps) => (
   </TouchableOpacity>
 )
 
-interface ContactsBarProps {
-  right: string,
-  onClose: (event: Native.GestureResponderEvent) => void,
+const useAnimation = (right: number, state: Animated.Value) => {
+  React.useEffect(() => {
+    Animated.timing(state, {
+      toValue: right,
+      duration: 500,
+    }).start()
+  })
 }
-const ContactsBar = ({ right, onClose }: ContactsBarProps) => (
-  <View
-    style={{
-      position: 'absolute',
-      width: '100%',
-      height: '100%',
-      right,
-      flexDirection: 'row',
-    }}
-  >
-    <View
-      style={[{
-        backgroundColor: 'rgb(233, 236, 242)',
-      }, styles.shadow.hard]}
-    >
-      <SafeAreaView>
-        <FlatList
-          data={[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]}
-          renderItem={() =>
-            <ContactsItem
-              indicatorColor='rgb(233, 236, 242)'
-              padIndicator={true}
-            />
-          }
-          keyExtractor={(_item, index) => index.toString()}
-        />
-      </SafeAreaView>
-    </View>
-    <TouchableWithoutFeedback onPress={onClose}>
-      <View style={{ flex: 1 }}/>
-    </TouchableWithoutFeedback>
+
+const computeRight = (state: Animated.Value) => ({
+  right: state.interpolate({
+    inputRange: [ 0, 120 ],
+    outputRange: [ '0%', '120%' ],
+  }),
+})
+
+const renderContactsBarItem = () => (
+  <ContactsItem
+    indicatorColor='rgb(233, 236, 242)'
+    padIndicator={true}
+  />
+)
+
+interface ContactsBarListProps {}
+const ContactsBarList = (_props: ContactsBarListProps) => (
+  <View style={[styles.contactsBar.background, styles.shadow.hard]}>
+    <SafeAreaView>
+      <FlatList
+        data={[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]}
+        keyExtractor={(_item, index) => index.toString()}
+        renderItem={renderContactsBarItem}
+      />
+    </SafeAreaView>
   </View>
 )
+
+interface ContactsBarBackProps {
+  onClose: (event: Native.GestureResponderEvent) => void,
+}
+const ContactsBarBack = ({ onClose }: ContactsBarBackProps) => (
+  <TouchableWithoutFeedback onPress={onClose}>
+    <View style={{ flex: 1 }}/>
+  </TouchableWithoutFeedback>
+)
+
+interface ContactsBarProps {
+  right: number,
+  onClose: (event: Native.GestureResponderEvent) => void,
+}
+const ContactsBar = ({ right, onClose }: ContactsBarProps) => {
+  const [ state ] = React.useState(new Animated.Value(right))
+  useAnimation(right, state)
+  return (
+    <Animated.View style={[styles.contactsBar.main, computeRight(state)]}>
+      <ContactsBarList/>
+      <ContactsBarBack onClose={onClose}/>
+    </Animated.View>
+  )
+}
 
 interface Props {
   navigation: any,
 }
 export default ({ navigation }: Props) => {
-  const [ state, setState ] = React.useState('120%')
+  const [ state, setState ] = React.useState(120)
   return (
     <View style={styles.common.full}>
       <StatusBar barStyle='light-content'/>
       <TopBar
-        onIconPress={() => setState('0%')}
+        onIconPress={() => setState(0)}
         onProfilePicturePress={console.log}
       />
       <ConversationsList/>
       <NewMessageButton navigation={navigation}/>
-      <ContactsBar right={state} onClose={() => setState('120%')}/>
+      <ContactsBar right={state} onClose={() => setState(120)}/>
     </View>
   )
 }
@@ -392,6 +414,17 @@ const styles = {
       backgroundColor: NEW_MESSAGE_BUTTON_COLOR,
       alignItems: 'center',
       justifyContent: 'center',
+    },
+  }),
+  contactsBar: StyleSheet.create({
+    main: {
+      flexDirection: 'row',
+      position: 'absolute',
+      width: '100%',
+      height: '100%',
+    },
+    background: {
+      backgroundColor: 'rgb(233, 236, 242)',
     },
   }),
 }
