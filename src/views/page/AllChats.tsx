@@ -228,11 +228,13 @@ interface NewMessageButtonProps {
   navigation: any,
 }
 const NewMessageButton = ({ navigation }: NewMessageButtonProps) => (
-  <TouchableOpacity onPress={() => navigation.navigate('NewMessage')}>
-    <View style={[styles.newMessageButton.main, styles.shadow.hard]}>
-      <MaterialIcon size={30} name='add' color='rgb(242, 242, 242)'/>
-    </View>
-  </TouchableOpacity>
+  <View style={styles.newMessageButton.wrapper}>
+    <TouchableOpacity onPress={() => navigation.navigate('NewMessage')}>
+      <View style={[styles.newMessageButton.main, styles.shadow.hard]}>
+        <MaterialIcon size={30} name='add' color='rgb(242, 242, 242)'/>
+      </View>
+    </TouchableOpacity>
+  </View>
 )
 
 const useAnimation = (right: number, state: Animated.Value) => {
@@ -406,10 +408,13 @@ const styles = {
     },
   }),
   newMessageButton: StyleSheet.create({
-    main: {
+    wrapper: {
+      zIndex: 1,
       position: 'absolute',
       bottom: XLARGE_PADDING,
       right: XLARGE_PADDING,
+    },
+    main: {
       width: PROFILE_PICTURE_SIZE,
       height: PROFILE_PICTURE_SIZE,
       borderRadius: PROFILE_PICTURE_SIZE / 2,

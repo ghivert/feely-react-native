@@ -5,6 +5,7 @@
   "scripts": {
     "start": "react-native run-ios --simulator='iPhone Xʀ'",
     "bundler": "node node_modules/react-native/local-cli/cli.js start",
+    "debug": "react-devtools",
     "test": "jest"
   },
   "dependencies": {
@@ -28,6 +29,7 @@
     "faker": "^4.1.0",
     "jest": "^24.7.1",
     "metro-react-native-babel-preset": "^0.53.1",
+    "react-devtools": "^3.6.1",
     "react-test-renderer": "16.8.3",
     "typescript": "^3.4.3"
   },
