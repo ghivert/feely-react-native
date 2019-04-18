@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
 } from 'react-native'
+import { NavigationScreenProps } from 'react-navigation'
 import Icon from 'react-native-vector-icons/Ionicons'
 import LinearGradient from 'react-native-linear-gradient'
 
@@ -30,10 +31,7 @@ import commonStyles from '../styles'
 import ListSeparator from '../components/ListSeparator'
 import ContactsItem from '../components/ContactsItem'
 
-interface HeaderProps {
-  navigation: any,
-}
-const Header = ({ navigation }: HeaderProps) => (
+const Header: React.SFC<NavigationScreenProps> = ({ navigation }) => (
   <LinearGradient
     colors={[ NEW_MESSAGE_BUTTON_COLOR, LIGHTER_PURPLE ]}
     start={{ x: 0, y: 0 }}
@@ -58,8 +56,7 @@ const Header = ({ navigation }: HeaderProps) => (
   </LinearGradient>
 )
 
-interface SearchProps {}
-const Search = (_props: SearchProps) => (
+const Search: React.SFC = (_props) => (
   <LinearGradient
     colors={[ DARK_PURPLE, XLIGHTER_PURPLE ]}
     start={{ x: 0, y: 0 }}
@@ -72,8 +69,7 @@ const Search = (_props: SearchProps) => (
   </LinearGradient>
 )
 
-interface ContactsProps {}
-const Contacts = (_props: ContactsProps) => (
+const Contacts: React.SFC = (_props) => (
   <FlatList
     style={styles.contacts.main}
     data={[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 ]}
@@ -85,8 +81,7 @@ const Contacts = (_props: ContactsProps) => (
   />
 )
 
-interface MessageFieldProps {}
-const MessageField = (_props: MessageFieldProps) => (
+const MessageField: React.SFC = (_props) => (
   <SafeAreaView>
     <TextInput
       style={styles.message.input}
@@ -96,19 +91,23 @@ const MessageField = (_props: MessageFieldProps) => (
   </SafeAreaView>
 )
 
-interface Props {
-  navigation: any,
-}
-export default ({ navigation }: Props) => (
+const ResizingView: React.SFC = ({ children }) => (
   <KeyboardAvoidingView behavior='padding'>
     <View style={styles.main.main}>
-      <Header navigation={navigation}/>
-      <Search/>
-      <Contacts/>
-      <MessageField/>
+      {children}
     </View>
   </KeyboardAvoidingView>
 )
+
+const NewMessage: React.SFC<NavigationScreenProps> = (props) => (
+  <ResizingView>
+    <Header navigation={props.navigation}/>
+    <Search/>
+    <Contacts/>
+    <MessageField/>
+  </ResizingView>
+)
+export default NewMessage
 
 const styles = {
   common: commonStyles,

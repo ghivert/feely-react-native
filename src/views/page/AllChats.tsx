@@ -11,6 +11,7 @@ import Native, {
   TouchableWithoutFeedback,
   Animated,
 } from 'react-native'
+import { NavigationScreenProps } from 'react-navigation'
 import AntIcon from 'react-native-vector-icons/AntDesign'
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 import faker from 'faker'
@@ -51,7 +52,7 @@ import ContactsItem from '../components/ContactsItem'
 interface PeoplesIconProps {
   onPress: (event: Native.GestureResponderEvent) => void,
 }
-const PeoplesIcon = ({ onPress }: PeoplesIconProps) => (
+const PeoplesIcon: React.SFC<PeoplesIconProps> = ({ onPress }) => (
   <TouchableOpacity onPress={onPress}>
     <View style={styles.topBar.itemPadding}>
       <AntIcon name='contacts' size={25} color={ICON_GREY}/>
@@ -62,7 +63,7 @@ const PeoplesIcon = ({ onPress }: PeoplesIconProps) => (
 interface ProfilePictureProps {
   onPress: (event: Native.GestureResponderEvent) => void,
 }
-const ProfilePicture = ({ onPress }: ProfilePictureProps) => (
+const ProfilePicture: React.SFC<ProfilePictureProps> = ({ onPress }) => (
   <TouchableOpacity onPress={onPress}>
     <View style={styles.topBar.itemPadding}>
       <ImageBackground
@@ -80,7 +81,7 @@ interface TopBarProps {
   onIconPress: (event: Native.GestureResponderEvent) => void,
   onProfilePicturePress: (event: Native.GestureResponderEvent) => void,
 }
-const TopBar = ({ onIconPress, onProfilePicturePress }: TopBarProps) => (
+const TopBar: React.SFC<TopBarProps> = ({ onIconPress, onProfilePicturePress }) => (
   <SafeAreaView style={styles.topBar.main}>
     <PeoplesIcon onPress={onIconPress}/>
     <Text style={styles.topBar.title}>Chat</Text>
@@ -109,8 +110,7 @@ const selectColor = (): string => {
   }
 }
 
-interface RandomColorProps {}
-const RandomColor = (_props: RandomColorProps) => (
+const RandomColor: React.SFC = (_props) => (
   <View
     style={[
       styles.conversationsItem.randomColor,
@@ -122,7 +122,7 @@ const RandomColor = (_props: RandomColorProps) => (
 interface ImageIndicatorProps {
   source: Native.ImageSourcePropType,
 }
-const ImageIndicator = ({ source }: ImageIndicatorProps) => (
+const ImageIndicator: React.SFC<ImageIndicatorProps> = ({ source }) => (
   <ImageBackground
     source={source}
     style={styles.common.responsiveSquare}
@@ -130,18 +130,15 @@ const ImageIndicator = ({ source }: ImageIndicatorProps) => (
   />
 )
 
-interface MoodProps {}
-const Mood = (_props: MoodProps) => (
+const Mood: React.SFC = (_props) => (
   <Text style={styles.conversationsItem.mood}>Relaxed</Text>
 )
 
-interface LastHourProps {}
-const LastHour = (_props: LastHourProps) => (
+const LastHour: React.SFC = (_props) => (
   <Text style={styles.conversationsItem.lastHour}>now</Text>
 )
 
-interface ActivityIndicatorIfPresentProps {}
-const ActivityIndicatorIfPresent = (_props: ActivityIndicatorIfPresentProps) => {
+const ActivityIndicatorIfPresent: React.SFC = (_props) => {
   if (Math.random() < 0.5) {
     return <ActivityIndicator color='white'/>
   } else {
@@ -149,16 +146,14 @@ const ActivityIndicatorIfPresent = (_props: ActivityIndicatorIfPresentProps) => 
   }
 }
 
-interface NameAndOnlineActivityIndicatorProps {}
-const NameAndOnlineActivityIndicator = (_props: NameAndOnlineActivityIndicatorProps) => (
+const NameAndOnlineActivityIndicator: React.SFC = (_props) => (
   <View style={[styles.common.row, styles.conversationsItem.nameAndActivity]}>
     <Text style={styles.conversationsItem.name}>{faker.name.findName()}</Text>
     <ActivityIndicatorIfPresent/>
   </View>
 )
 
-interface LastMessageProps {}
-const LastMessage = (_props: LastMessageProps) => (
+const LastMessage: React.SFC = (_props) => (
   <Text
     numberOfLines={1}
     ellipsizeMode='tail'
@@ -169,12 +164,11 @@ const LastMessage = (_props: LastMessageProps) => (
 )
 
 interface SpacerProps { size: number }
-const Spacer = ({ size }: SpacerProps) => (
+const Spacer: React.SFC<SpacerProps> = ({ size }) => (
   <View style={{ padding: size / 2 }}/>
 )
 
-interface MoodAndNameProps {}
-const MoodAndName = (_props: MoodAndNameProps) => (
+const MoodAndName: React.SFC = (_props) => (
   <View style={styles.conversationsItem.moodAndName}>
     <Mood/>
     <Spacer size={TINY_PADDING}/>
@@ -184,8 +178,7 @@ const MoodAndName = (_props: MoodAndNameProps) => (
   </View>
 )
 
-interface ConversationsItemDetailsProps {}
-const ConversationsItemDetails = (_props: ConversationsItemDetailsProps) => {
+const ConversationsItemDetails: React.SFC = (_props) => {
   const mainStyle = [
     styles.common.full,
     styles.common.row,
@@ -207,7 +200,7 @@ interface ConversationsListItemProps {
   index: number,
   item: Object,
 }
-const ConversationsListItem = (_props: ConversationsListItemProps) => (
+const ConversationsListItem: React.SFC<ConversationsListItemProps> = (_props) => (
   <View style={styles.common.row}>
     <ImageIndicator source={{ uri: faker.image.imageUrl() }}/>
     <RandomColor/>
@@ -219,8 +212,7 @@ const renderConversationsListItem: Native.ListRenderItem<number> = ({ index, ite
   <ConversationsListItem index={index} item={item}/>
 )
 
-interface ConversationsListProps {}
-const ConversationsList = (_props: ConversationsListProps) => (
+const ConversationsList: React.SFC = (_props) => (
   <FlatList
     data={[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]}
     renderItem={renderConversationsListItem}
@@ -231,10 +223,7 @@ const ConversationsList = (_props: ConversationsListProps) => (
   />
 )
 
-interface NewMessageButtonProps {
-  navigation: any,
-}
-const NewMessageButton = ({ navigation }: NewMessageButtonProps) => (
+const NewMessageButton: React.SFC<NavigationScreenProps> = ({ navigation }) => (
   <View style={styles.newMessageButton.wrapper}>
     <TouchableOpacity onPress={() => navigation.navigate('NewMessage')}>
       <View style={[styles.newMessageButton.main, styles.shadow.hard]}>
@@ -267,8 +256,7 @@ const renderContactsBarItem = () => (
   />
 )
 
-interface ContactsBarListProps {}
-const ContactsBarList = (_props: ContactsBarListProps) => (
+const ContactsBarList: React.SFC = (_props) => (
   <View style={[styles.contactsBar.background, styles.shadow.hard]}>
     <SafeAreaView>
       <FlatList
@@ -283,7 +271,7 @@ const ContactsBarList = (_props: ContactsBarListProps) => (
 interface ContactsBarBackProps {
   onClose: (event: Native.GestureResponderEvent) => void,
 }
-const ContactsBarBack = ({ onClose }: ContactsBarBackProps) => (
+const ContactsBarBack: React.SFC<ContactsBarBackProps> = ({ onClose }) => (
   <TouchableWithoutFeedback onPress={onClose}>
     <View style={{ flex: 1 }}/>
   </TouchableWithoutFeedback>
@@ -293,7 +281,7 @@ interface ContactsBarProps {
   right: number,
   onClose: (event: Native.GestureResponderEvent) => void,
 }
-const ContactsBar = ({ right, onClose }: ContactsBarProps) => {
+const ContactsBar: React.SFC<ContactsBarProps> = ({ right, onClose }) => {
   const [ state ] = React.useState(new Animated.Value(right))
   useAnimation(right, state)
   return (
@@ -304,10 +292,7 @@ const ContactsBar = ({ right, onClose }: ContactsBarProps) => {
   )
 }
 
-interface Props {
-  navigation: any,
-}
-export default ({ navigation }: Props) => {
+const AllChats: React.SFC<NavigationScreenProps> = ({ navigation }) => {
   const [ state, setState ] = React.useState(120)
   return (
     <View style={styles.common.full}>
@@ -324,6 +309,7 @@ export default ({ navigation }: Props) => {
     </View>
   )
 }
+export default AllChats
 
 const styles = {
   common: commonStyles,
