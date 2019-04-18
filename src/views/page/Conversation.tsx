@@ -66,9 +66,7 @@ const Header: React.SFC<HeaderProps> = ({ navigation, backgroundColor }) => (
           <ActivityIndicator color={WHITE}/>
         </Padding>
         <MoodAndName/>
-        <ProfilePicture
-          onPress={() => console.warn('Profile picture pressed.')}
-        />
+        <ProfilePicture onPress={() => console.warn('Profile picture pressed.')}/>
       </Row>
     </View>
   </View>
