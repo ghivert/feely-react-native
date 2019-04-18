@@ -16,6 +16,13 @@ import AntIcon from 'react-native-vector-icons/AntDesign'
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 import faker from 'faker'
 
+import { Round, Spacer } from '../feely-ui'
+import ActivityIndicator from '../components/ActivityIndicator'
+import ListSeparator from '../components/ListSeparator'
+import ContactsItem from '../components/ContactsItem'
+import ProfilePicture from '../components/HeaderProfilePicture'
+import Mood from '../components/Mood'
+import * as Color from '../helpers/colors'
 import {
   TINY_PADDING,
   SMALL_PADDING,
@@ -23,16 +30,8 @@ import {
   MEDIUM_PADDING,
   XLARGE_PADDING,
   PROFILE_PICTURE_SIZE,
-  TINY_PROFILE_PICTURE_SIZE,
 } from '../styles/constants'
 import {
-  LIGHT_GREEN,
-  BROWN,
-  MAGENTA,
-  LIGHT_RED,
-  SUNNY_YELLOW,
-  LIGHT_YELLOW,
-  LIGHT_PURPLE,
   ICON_GREY,
   DARK_MEDIUM_GREY,
   MEDIUM_GREY,
@@ -40,14 +39,10 @@ import {
   NEW_MESSAGE_BUTTON_COLOR,
   DARK_PALE_GREY,
   PALE_GREY,
-  LIGHT_SHADOW,
   HARD_SHADOW,
   CONTACTS_PALE_GREY,
 } from '../styles/colors'
 import commonStyles from '../styles'
-import ActivityIndicator from '../components/ActivityIndicator'
-import ListSeparator from '../components/ListSeparator'
-import ContactsItem from '../components/ContactsItem'
 
 interface PeoplesIconProps {
   onPress: (event: Native.GestureResponderEvent) => void,
@@ -60,23 +55,6 @@ const PeoplesIcon: React.SFC<PeoplesIconProps> = ({ onPress }) => (
   </TouchableOpacity>
 )
 
-interface ProfilePictureProps {
-  onPress: (event: Native.GestureResponderEvent) => void,
-}
-const ProfilePicture: React.SFC<ProfilePictureProps> = ({ onPress }) => (
-  <TouchableOpacity onPress={onPress}>
-    <View style={styles.topBar.itemPadding}>
-      <ImageBackground
-        source={{ uri: faker.image.people() }}
-        style={styles.topBar.profilePictureContainer}
-        imageStyle={styles.topBar.profilePictureImage}
-      >
-        <ActivityIndicator color={TOPBAR_BACKGROUND_COLOR}/>
-      </ImageBackground>
-    </View>
-  </TouchableOpacity>
-)
-
 interface TopBarProps {
   onIconPress: (event: Native.GestureResponderEvent) => void,
   onProfilePicturePress: (event: Native.GestureResponderEvent) => void,
@@ -85,36 +63,18 @@ const TopBar: React.SFC<TopBarProps> = ({ onIconPress, onProfilePicturePress }) 
   <SafeAreaView style={styles.topBar.main}>
     <PeoplesIcon onPress={onIconPress}/>
     <Text style={styles.topBar.title}>Chat</Text>
-    <ProfilePicture onPress={onProfilePicturePress}/>
+    <ProfilePicture
+      onPress={onProfilePicturePress}
+      activityBackgroundColor={TOPBAR_BACKGROUND_COLOR}
+    />
   </SafeAreaView>
 )
-
-
-let counter = 0
-const getRandomColor = (): string => {
-  const color = selectColor()
-  counter = (counter + 1) % 7
-  return color
-}
-
-const selectColor = (): string => {
-  switch(counter) {
-    case 0: return LIGHT_GREEN
-    case 1: return BROWN
-    case 2: return MAGENTA
-    case 3: return LIGHT_RED
-    case 4: return SUNNY_YELLOW
-    case 5: return LIGHT_YELLOW
-    case 6: return LIGHT_PURPLE
-    default: throw new Error('Random color undefined.')
-  }
-}
 
 const RandomColor: React.SFC = (_props) => (
   <View
     style={[
       styles.conversationsItem.randomColor,
-      { backgroundColor: getRandomColor() },
+      { backgroundColor: Color.getRandom() },
     ]}
   />
 )
@@ -128,10 +88,6 @@ const ImageIndicator: React.SFC<ImageIndicatorProps> = ({ source }) => (
     style={styles.common.responsiveSquare}
     resizeMode='cover'
   />
-)
-
-const Mood: React.SFC = (_props) => (
-  <Text style={styles.conversationsItem.mood}>Relaxed</Text>
 )
 
 const LastHour: React.SFC = (_props) => (
@@ -161,11 +117,6 @@ const LastMessage: React.SFC = (_props) => (
   >
     {faker.lorem.sentence()}
   </Text>
-)
-
-interface SpacerProps { size: number }
-const Spacer: React.SFC<SpacerProps> = ({ size }) => (
-  <View style={{ padding: size / 2 }}/>
 )
 
 const MoodAndName: React.SFC = (_props) => (
@@ -224,11 +175,11 @@ const ConversationsList: React.SFC = (_props) => (
 )
 
 const NewMessageButton: React.SFC<NavigationScreenProps> = ({ navigation }) => (
-  <View style={styles.newMessageButton.wrapper}>
+  <View style={[styles.newMessageButton.wrapper, styles.common.shadow]}>
     <TouchableOpacity onPress={() => navigation.navigate('NewMessage')}>
-      <View style={[styles.newMessageButton.main, styles.shadow.hard]}>
+      <Round size={PROFILE_PICTURE_SIZE} backgroundColor={NEW_MESSAGE_BUTTON_COLOR}>
         <MaterialIcon size={30} name='add' color={PALE_GREY}/>
-      </View>
+      </Round>
     </TouchableOpacity>
   </View>
 )
@@ -257,7 +208,7 @@ const renderContactsBarItem = () => (
 )
 
 const ContactsBarList: React.SFC = (_props) => (
-  <View style={[styles.contactsBar.background, styles.shadow.hard]}>
+  <View style={[styles.contactsBar.background, styles.common.shadow]}>
     <SafeAreaView>
       <FlatList
         data={[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]}
@@ -309,6 +260,7 @@ const AllChats: React.SFC<NavigationScreenProps> = ({ navigation }) => {
     </View>
   )
 }
+
 export default AllChats
 
 const styles = {
@@ -330,20 +282,8 @@ const styles = {
       letterSpacing: 1,
       fontSize: 16,
     },
-    profilePictureContainer: {
-      width: TINY_PROFILE_PICTURE_SIZE,
-      height: TINY_PROFILE_PICTURE_SIZE,
-      alignItems: 'flex-end',
-    },
-    profilePictureImage: {
-      borderRadius: TINY_PROFILE_PICTURE_SIZE / 2,
-    },
   }),
   conversationsItem: StyleSheet.create({
-    profilePictureContainer: {
-      width: 40,
-      height: 40,
-    },
     randomColor: {
       height: '100%',
       width: 10,
@@ -356,12 +296,6 @@ const styles = {
     moodAndName: {
       alignItems: 'baseline',
       flex: 1,
-    },
-    mood: {
-      color: MEDIUM_GREY,
-      textTransform: 'uppercase',
-      fontSize: 12,
-      fontWeight: '600',
     },
     lastHour: {
       color: MEDIUM_GREY,
@@ -380,40 +314,12 @@ const styles = {
       color: DARK_MEDIUM_GREY,
     },
   }),
-  shadow: StyleSheet.create({
-    light: {
-      shadowColor: LIGHT_SHADOW,
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.23,
-      shadowRadius: 2.62
-    },
-    hard: {
-      shadowColor: HARD_SHADOW,
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.6,
-      shadowRadius: 2.62
-    },
-  }),
   newMessageButton: StyleSheet.create({
     wrapper: {
       zIndex: 1,
       position: 'absolute',
       bottom: XLARGE_PADDING,
       right: XLARGE_PADDING,
-    },
-    main: {
-      width: PROFILE_PICTURE_SIZE,
-      height: PROFILE_PICTURE_SIZE,
-      borderRadius: PROFILE_PICTURE_SIZE / 2,
-      backgroundColor: NEW_MESSAGE_BUTTON_COLOR,
-      alignItems: 'center',
-      justifyContent: 'center',
     },
   }),
   contactsBar: StyleSheet.create({

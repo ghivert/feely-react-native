@@ -7,7 +7,6 @@ import {
   TextInput,
   FlatList,
   TouchableOpacity,
-  KeyboardAvoidingView,
 } from 'react-native'
 import { NavigationScreenProps } from 'react-navigation'
 import Icon from 'react-native-vector-icons/Ionicons'
@@ -30,6 +29,8 @@ import {
 import commonStyles from '../styles'
 import ListSeparator from '../components/ListSeparator'
 import ContactsItem from '../components/ContactsItem'
+import ResizingView from '../components/ResizingView'
+import MessageField from '../components/MessageField'
 
 const Header: React.SFC<NavigationScreenProps> = ({ navigation }) => (
   <LinearGradient
@@ -43,11 +44,7 @@ const Header: React.SFC<NavigationScreenProps> = ({ navigation }) => (
           onPress={() => navigation.goBack()}
           style={styles.common.full}
         >
-          <Icon
-            name='md-close'
-            size={25}
-            color={ALMOST_WHITE}
-          />
+          <Icon name='md-close' size={25} color={ALMOST_WHITE}/>
         </TouchableOpacity>
         <Text style={styles.header.title}>new message</Text>
         <View style={styles.common.full}/>
@@ -81,24 +78,6 @@ const Contacts: React.SFC = (_props) => (
   />
 )
 
-const MessageField: React.SFC = (_props) => (
-  <SafeAreaView>
-    <TextInput
-      style={styles.message.input}
-      placeholder='Your message'
-      multiline={true}
-    />
-  </SafeAreaView>
-)
-
-const ResizingView: React.SFC = ({ children }) => (
-  <KeyboardAvoidingView behavior='padding'>
-    <View style={styles.main.main}>
-      {children}
-    </View>
-  </KeyboardAvoidingView>
-)
-
 const NewMessage: React.SFC<NavigationScreenProps> = (props) => (
   <ResizingView>
     <Header navigation={props.navigation}/>
@@ -107,16 +86,11 @@ const NewMessage: React.SFC<NavigationScreenProps> = (props) => (
     <MessageField/>
   </ResizingView>
 )
+
 export default NewMessage
 
 const styles = {
   common: commonStyles,
-  main: StyleSheet.create({
-    main: {
-      maxHeight: '100%',
-      flexGrow: 1,
-    },
-  }),
   header: StyleSheet.create({
     main: {
       flexDirection: 'row',
@@ -173,13 +147,6 @@ const styles = {
       paddingHorizontal: STANDARD_PADDING,
       fontWeight: '700',
       fontSize: 14
-    },
-  }),
-  message: StyleSheet.create({
-    input: {
-      margin: LARGE_PADDING,
-      fontSize: 14,
-      fontWeight: '500',
     },
   }),
 }

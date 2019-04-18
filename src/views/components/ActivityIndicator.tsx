@@ -6,7 +6,7 @@ import { INDICATOR_GREEN } from '../styles/colors'
 interface ActivityIndicatorProps {
   color: string,
 }
-const ActivityIndicator = ({ color }: ActivityIndicatorProps) => (
+const ActivityIndicator: React.SFC<ActivityIndicatorProps> = ({ color }) => (
   <View style={styles.outside}>
     <View style={[ styles.inside, { backgroundColor: color } ]}/>
   </View>
