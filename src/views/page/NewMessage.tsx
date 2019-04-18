@@ -15,6 +15,7 @@ import LinearGradient from 'react-native-linear-gradient'
 import {
   STANDARD_PADDING,
   LARGE_PADDING,
+  SMALL_PROFILE_PICTURE_SIZE,
 } from '../styles/constants'
 import {
   WHITE,
@@ -29,8 +30,6 @@ import commonStyles from '../styles'
 import ListSeparator from '../components/ListSeparator'
 import ContactsItem from '../components/ContactsItem'
 
-const PROFILE_PICTURE_SIZE = 40
-
 interface HeaderProps {
   navigation: any,
 }
@@ -42,7 +41,10 @@ const Header = ({ navigation }: HeaderProps) => (
   >
     <SafeAreaView>
       <View style={styles.header.main}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={{ flex: 1 }}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.common.full}
+        >
           <Icon
             name='md-close'
             size={25}
@@ -50,7 +52,7 @@ const Header = ({ navigation }: HeaderProps) => (
           />
         </TouchableOpacity>
         <Text style={styles.header.title}>new message</Text>
-        <View style={{ flex: 1 }}/>
+        <View style={styles.common.full}/>
       </View>
     </SafeAreaView>
   </LinearGradient>
@@ -164,9 +166,9 @@ const styles = {
       paddingHorizontal: LARGE_PADDING,
     },
     image: {
-      width: PROFILE_PICTURE_SIZE,
-      height: PROFILE_PICTURE_SIZE,
-      borderRadius: PROFILE_PICTURE_SIZE / 2,
+      width: SMALL_PROFILE_PICTURE_SIZE,
+      height: SMALL_PROFILE_PICTURE_SIZE,
+      borderRadius: SMALL_PROFILE_PICTURE_SIZE / 2,
     },
     title: {
       paddingHorizontal: STANDARD_PADDING,

@@ -22,7 +22,7 @@ import {
   MEDIUM_PADDING,
   XLARGE_PADDING,
   PROFILE_PICTURE_SIZE,
-  SMALL_PROFILE_PICTURE_SIZE,
+  TINY_PROFILE_PICTURE_SIZE,
 } from '../styles/constants'
 import {
   LIGHT_GREEN,
@@ -345,12 +345,12 @@ const styles = {
       fontSize: 16,
     },
     profilePictureContainer: {
-      width: SMALL_PROFILE_PICTURE_SIZE,
-      height: SMALL_PROFILE_PICTURE_SIZE,
+      width: TINY_PROFILE_PICTURE_SIZE,
+      height: TINY_PROFILE_PICTURE_SIZE,
       alignItems: 'flex-end',
     },
     profilePictureImage: {
-      borderRadius: SMALL_PROFILE_PICTURE_SIZE / 2,
+      borderRadius: TINY_PROFILE_PICTURE_SIZE / 2,
     },
   }),
   conversationsItem: StyleSheet.create({
