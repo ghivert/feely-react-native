@@ -1,43 +1,42 @@
 import React from 'react'
-import Native, {
+import {
   View,
   SafeAreaView,
   Text,
   StyleSheet,
   TextInput,
   FlatList,
-  Image,
   TouchableOpacity,
   KeyboardAvoidingView,
 } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import LinearGradient from 'react-native-linear-gradient'
-import faker from 'faker'
 
 import {
   STANDARD_PADDING,
   LARGE_PADDING,
 } from '../styles/constants'
+import {
+  WHITE,
+  ALMOST_WHITE,
+  NEW_MESSAGE_BUTTON_COLOR,
+  LIGHTER_PURPLE,
+  PALE_GREY,
+  DARK_PURPLE,
+  XLIGHTER_PURPLE,
+} from '../styles/colors'
 import commonStyles from '../styles'
-import ActivityIndicator from '../components/ActivityIndicator'
 import ListSeparator from '../components/ListSeparator'
 import ContactsItem from '../components/ContactsItem'
 
 const PROFILE_PICTURE_SIZE = 40
-
-// Colors
-const darkPurple = 'rgb(140, 134, 247)'
-const lightPurple = 'rgb(125, 145, 235)'
-const darkerPurple = 'rgb(118, 112, 231)'
-const lighterPurple = 'rgb(120, 140, 240)'
-const backgroundColor = 'rgb(241, 242, 246)'
 
 interface HeaderProps {
   navigation: any,
 }
 const Header = ({ navigation }: HeaderProps) => (
   <LinearGradient
-    colors={[ darkPurple, lightPurple ]}
+    colors={[ NEW_MESSAGE_BUTTON_COLOR, LIGHTER_PURPLE ]}
     start={{ x: 0, y: 0 }}
     end={{ x: 1, y: 0 }}
   >
@@ -47,7 +46,7 @@ const Header = ({ navigation }: HeaderProps) => (
           <Icon
             name='md-close'
             size={25}
-            color='rgb(250, 250, 250)'
+            color={ALMOST_WHITE}
           />
         </TouchableOpacity>
         <Text style={styles.header.title}>new message</Text>
@@ -60,7 +59,7 @@ const Header = ({ navigation }: HeaderProps) => (
 interface SearchProps {}
 const Search = (_props: SearchProps) => (
   <LinearGradient
-    colors={[ darkerPurple, lighterPurple ]}
+    colors={[ DARK_PURPLE, XLIGHTER_PURPLE ]}
     start={{ x: 0, y: 0 }}
     end={{ x: 1, y: 0 }}
   >
@@ -76,7 +75,7 @@ const Contacts = (_props: ContactsProps) => (
   <FlatList
     style={styles.contacts.main}
     data={[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 ]}
-    renderItem={() => <ContactsItem indicatorColor={backgroundColor}/>}
+    renderItem={() => <ContactsItem indicatorColor={PALE_GREY}/>}
     keyExtractor={(_item, index) => index.toString()}
     ItemSeparatorComponent={ListSeparator}
     ListHeaderComponent={ListSeparator}
@@ -129,7 +128,7 @@ const styles = {
       flex: 1,
       textTransform: 'uppercase',
       textAlign: 'center',
-      color: 'white',
+      color: WHITE,
       fontSize: 14,
       fontWeight: '600',
       letterSpacing: 0.5,
@@ -141,20 +140,20 @@ const styles = {
       padding: LARGE_PADDING,
     },
     title: {
-      color: 'white',
+      color: WHITE,
       fontWeight: '500',
       fontSize: 14,
     },
     input: {
       flex: 1,
       marginHorizontal: STANDARD_PADDING,
-      color: 'white',
+      color: WHITE,
     },
   }),
   contacts: StyleSheet.create({
     main: {
       flexGrow: 1,
-      backgroundColor,
+      backgroundColor: PALE_GREY,
     },
   }),
   contactsItem: StyleSheet.create({

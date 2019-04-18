@@ -1,6 +1,8 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
 
+import { SEPARATOR_GREY } from '../styles/colors'
+
 interface ListSeparatorProps {
   highlighted: number,
   leadingItem: React.Component,
@@ -12,7 +14,7 @@ const ListSeparator = (_props: ListSeparatorProps) => (
 const styles = StyleSheet.create({
   separator: {
     height: StyleSheet.hairlineWidth,
-    backgroundColor: 'rgb(200, 200, 200)',
+    backgroundColor: SEPARATOR_GREY,
   }
 })
 

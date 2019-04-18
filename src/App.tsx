@@ -1,16 +1,17 @@
 import Navigation from 'react-navigation'
-import AllChats from './views/page/AllChats'
 import NewMessage from './views/page/NewMessage'
+import AllChats from './views/page/AllChats'
+
+const screens: Navigation.NavigationRouteConfigMap = {
+  AllChats,
+  NewMessage,
+}
+
+const options: Navigation.StackNavigatorConfig = {
+  initialRouteName: 'AllChats',
+  headerMode: 'none',
+}
 
 export default Navigation.createAppContainer(
-  Navigation.createStackNavigator(
-    {
-      AllChats,
-      NewMessage,
-    },
-    {
-      initialRouteName: 'AllChats',
-      headerMode: 'none',
-    }
-  )
+  Navigation.createStackNavigator(screens, options)
 )

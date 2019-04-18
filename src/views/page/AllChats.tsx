@@ -24,22 +24,29 @@ import {
   PROFILE_PICTURE_SIZE,
   SMALL_PROFILE_PICTURE_SIZE,
 } from '../styles/constants'
+import {
+  LIGHT_GREEN,
+  BROWN,
+  MAGENTA,
+  LIGHT_RED,
+  SUNNY_YELLOW,
+  LIGHT_YELLOW,
+  LIGHT_PURPLE,
+  ICON_GREY,
+  DARK_MEDIUM_GREY,
+  MEDIUM_GREY,
+  TOPBAR_BACKGROUND_COLOR,
+  NEW_MESSAGE_BUTTON_COLOR,
+  DARK_PALE_GREY,
+  PALE_GREY,
+  LIGHT_SHADOW,
+  HARD_SHADOW,
+  CONTACTS_PALE_GREY,
+} from '../styles/colors'
 import commonStyles from '../styles'
 import ActivityIndicator from '../components/ActivityIndicator'
 import ListSeparator from '../components/ListSeparator'
 import ContactsItem from '../components/ContactsItem'
-
-// Colors
-const LIGHT_GREEN = 'rgb(093, 196, 174)'
-const LIGHT_ORANGE = 'rgb(198, 174, 174)'
-const MAGENTA = 'rgb(176, 110, 207)'
-const LIGHT_RED = 'rgb(219, 116, 175)'
-const SUNNY_YELLOW = 'rgb(245, 208, 125)'
-const LIGHT_YELLOW = 'rgb(248, 220, 157)'
-const LIGHT_PURPLE = 'rgb(118, 124, 233)'
-const ICON_GREY = 'rgb(147, 148, 165)'
-const TOPBAR_BACKGROUND_COLOR = 'rgb(60, 60, 90)'
-const NEW_MESSAGE_BUTTON_COLOR = 'rgb(140, 140, 245)'
 
 interface PeoplesIconProps {
   onPress: (event: Native.GestureResponderEvent) => void,
@@ -92,7 +99,7 @@ const getRandomColor = (): string => {
 const selectColor = (): string => {
   switch(counter) {
     case 0: return LIGHT_GREEN
-    case 1: return LIGHT_ORANGE
+    case 1: return BROWN
     case 2: return MAGENTA
     case 3: return LIGHT_RED
     case 4: return SUNNY_YELLOW
@@ -231,7 +238,7 @@ const NewMessageButton = ({ navigation }: NewMessageButtonProps) => (
   <View style={styles.newMessageButton.wrapper}>
     <TouchableOpacity onPress={() => navigation.navigate('NewMessage')}>
       <View style={[styles.newMessageButton.main, styles.shadow.hard]}>
-        <MaterialIcon size={30} name='add' color='rgb(242, 242, 242)'/>
+        <MaterialIcon size={30} name='add' color={PALE_GREY}/>
       </View>
     </TouchableOpacity>
   </View>
@@ -255,7 +262,7 @@ const computeRight = (state: Animated.Value) => ({
 
 const renderContactsBarItem = () => (
   <ContactsItem
-    indicatorColor='rgb(233, 236, 242)'
+    indicatorColor={CONTACTS_PALE_GREY}
     padIndicator={true}
   />
 )
@@ -331,7 +338,7 @@ const styles = {
       padding: STANDARD_PADDING,
     },
     title: {
-      color: 'rgb(240, 240, 240)',
+      color: DARK_PALE_GREY,
       fontWeight: '600',
       textTransform: 'uppercase',
       letterSpacing: 1,
@@ -365,13 +372,13 @@ const styles = {
       flex: 1,
     },
     mood: {
-      color: 'rgb(178, 178, 178)',
+      color: MEDIUM_GREY,
       textTransform: 'uppercase',
       fontSize: 12,
       fontWeight: '600',
     },
     lastHour: {
-      color: 'rgb(178, 178, 178)',
+      color: MEDIUM_GREY,
       fontSize: 10,
       fontWeight: '600',
     },
@@ -384,12 +391,12 @@ const styles = {
     },
     lastMessage: {
       fontWeight: '500',
-      color: 'rgb(160, 160, 160)',
+      color: DARK_MEDIUM_GREY,
     },
   }),
   shadow: StyleSheet.create({
     light: {
-      shadowColor: "#bbb",
+      shadowColor: LIGHT_SHADOW,
       shadowOffset: {
         width: 0,
         height: 2,
@@ -398,7 +405,7 @@ const styles = {
       shadowRadius: 2.62
     },
     hard: {
-      shadowColor: "#666",
+      shadowColor: HARD_SHADOW,
       shadowOffset: {
         width: 0,
         height: 2,
@@ -431,7 +438,7 @@ const styles = {
       height: '100%',
     },
     background: {
-      backgroundColor: 'rgb(233, 236, 242)',
+      backgroundColor: CONTACTS_PALE_GREY,
     },
   }),
 }

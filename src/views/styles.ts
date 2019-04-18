@@ -4,9 +4,6 @@ const styles = StyleSheet.create({
   full: {
     flex: 1,
   },
-  maxHeight: {
-    flexGrow: 1,
-  },
   row: {
     flexDirection: 'row',
   },

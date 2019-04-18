@@ -1,6 +1,8 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
 
+import { INDICATOR_GREEN } from '../styles/colors'
+
 interface ActivityIndicatorProps {
   color: string,
 }
@@ -18,7 +20,7 @@ const styles = StyleSheet.create({
     width: ACTIVITY_INDICATOR_SIZE,
     height: ACTIVITY_INDICATOR_SIZE,
     borderRadius: ACTIVITY_INDICATOR_SIZE / 2,
-    backgroundColor: 'rgb(127, 212, 182)',
+    backgroundColor: INDICATOR_GREEN,
     alignItems: 'center',
     justifyContent: 'center',
   },
