@@ -10,32 +10,36 @@ const Row: React.SFC<RowProps> = ({ style, children }) => (
   </View>
 )
 
+const generatePaddingStyle = ({ horizontal, vertical, all }: PaddingProps) => ({
+  paddingHorizontal: horizontal,
+  paddingVertical: vertical,
+  padding: all,
+})
+
 interface PaddingProps {
   horizontal?: number,
   vertical?: number,
   all?: number,
 }
-const Padding: React.SFC<PaddingProps> = ({ horizontal, vertical, all, children }) => (
-  <View style={{
-    paddingHorizontal: horizontal,
-    paddingVertical: vertical,
-    padding: all,
-  }}>
-    {children}
+const Padding: React.SFC<PaddingProps> = (props) => (
+  <View style={generatePaddingStyle(props)}>
+    {props.children}
   </View>
 )
+
+const generateRoundStyle = (size: number, backgroundColor: string) => ({
+  width: size,
+  height: size,
+  borderRadius: size / 2,
+  backgroundColor,
+})
 
 interface RoundProps {
   size: number,
   backgroundColor: string,
 }
 const Round: React.SFC<RoundProps> = ({ size, backgroundColor, children }) => (
-  <View style={{
-    width: size,
-    height: size,
-    borderRadius: size / 2,
-    backgroundColor,
-  }}>
+  <View style={generateRoundStyle(size, backgroundColor)}>
     <Center>
       {children}
     </Center>
